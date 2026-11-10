@@ -34,10 +34,10 @@ rows, and a rehearsed cutover. Starting points in this skill:
    mapping per attribute, items dropped on purpose.
 3. Write one parser per shape returning `Parsed<Row>` (`ok(value)` / `bad(reason)`), using the
    `as*` helpers. Unknown shapes become `item.unknown-entity` findings.
-4. Write `buildPlan`: parse all, then resolve relations in dependency order (users -> groups ->
-   members -> expenses -> children). A row whose parent is not loadable is skipped with a
-   finding, together with its dependants. Skip a whole parent entity (an expense and all its
-   borrowers) rather than a partial one, otherwise totals are wrong.
+4. Write `buildPlan`: parse all, then resolve relations in dependency order (referenced tables
+   first, then the tables that point at them, then join/child tables). A row whose parent is not
+   loadable is skipped with a finding, together with its dependants. Skip a whole parent entity
+   (a record and all its nested children) rather than a partial one, otherwise totals are wrong.
 5. Write `loadTables` entries in parent-first order using `onConflictDoNothing().returning(...)`.
 6. Write `--verify`: per-table counts and primary-key diffs, sums of money columns on both sides,
    and a domain parity check - compute the same business number (a balance, a total) from the
@@ -56,9 +56,9 @@ rows, and a rehearsed cutover. Starting points in this skill:
 | A set that had no timestamp but the column needs one | Deterministic value (the parent's `updated_at`), so a re-run is identical and never later than the real time |
 | Two mirrored items of one relation | One row; take roles from the stored side markers; if both sides claim the same role on a pending request, skip (a guessed role would let the wrong person accept); on a confirmed relation use a deterministic rule (smaller id) and report it |
 | Epoch-second TTL attributes | Convert to `Date`; do not load already expired rows (reads treated them as gone) |
-| Boolean `settled` | Nullable timestamp (`settled_at = updated_at`) |
-| Key-embedded data (`group#expense`) | Strip the prefix, move embedded values to columns |
-| Duplicate natural keys after collapsing a key (two archives differing only by embedded time) | Keep the newest, report the rest |
+| Boolean flag such as `settled` | Nullable timestamp (`settled_at = updated_at`) |
+| Key-embedded data (`<parentId>#<childId>`) | Strip the prefix, move embedded values to columns |
+| Duplicate natural keys after collapsing a key (two items differing only by an embedded timestamp) | Keep the newest, report the rest |
 | Unique column with duplicates (email) | Keep the oldest, report the rest |
 | Counters and cached aggregates | Not migrated; computed |
 | Number outside the new column range | Reject the row with a finding (`amount-not-int32`) |

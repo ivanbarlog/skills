@@ -64,8 +64,8 @@ Rules for the SQL column:
 - Anything that issues a query per row of a result is a bug to fix, not to port.
 - Writes that were a transaction stay one transaction; side effects move after the commit (P25).
 
-Record every deliberate behavior change in a table (date, change, reason). In the reference
-migration these were: overwrite -> reject duplicates, stricter membership checks, idempotent
+Record every deliberate behavior change in a table (date, change, reason). In the worked
+example these were: overwrite -> reject duplicates, stricter membership checks, idempotent
 re-delivery, no borrower-count cap, counters removed.
 
 ## Step 5: decide, then confirm with the owner

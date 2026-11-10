@@ -36,11 +36,11 @@ describe("parsers", () => {
 describe("findings", () => {
   it("groups by code and prints ids only", () => {
     const findings = createFindings();
-    findings.add("member.mirror-missing", "imported", "group=g1 user=u1");
-    findings.add("member.mirror-missing", "imported", "group=g1 user=u2");
+    findings.add("link.mirror-missing", "imported", "parent=p1 child=c1");
+    findings.add("link.mirror-missing", "imported", "parent=p1 child=c2");
     const text = formatFindings(findings.list());
-    expect(text).toContain("member.mirror-missing [imported] x2");
-    expect(text).toContain("group=g1 user=u1");
+    expect(text).toContain("link.mirror-missing [imported] x2");
+    expect(text).toContain("parent=p1 child=c1");
   });
 });
 

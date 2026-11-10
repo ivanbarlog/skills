@@ -2,7 +2,7 @@
 
 Ids (P01...) are referenced by `scripts/scan-dynamodb-usage.ts`. Each entry: what it looks
 like, the SQL replacement, and the traps. Evidence comes from a real migration of a
-SvelteKit expense-splitting app (about 2,600 lines of data layer, 261 production items that
+expense-splitting web app (see `worked-example.md`) (about 2,600 lines of data layer, 261 production items that
 became 593 rows). Anything marked UNVERIFIED was not run on a live DSQL cluster.
 
 Guiding rule: do not translate items one to one. Model the entities and relations, then

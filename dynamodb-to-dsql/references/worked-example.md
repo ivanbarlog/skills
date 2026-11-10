@@ -1,7 +1,7 @@
-# Worked example: expense-ease (single table to 9 relational tables)
+# Worked example: an expense-splitting app (single table to 9 relational tables)
 
-Source: the `dsql-experiment` journal and design. Use it to calibrate decisions, not to copy
-the schema.
+A real but project-specific migration. Its entities (users, groups, expenses, debts) are
+illustrative only. Use it to calibrate decisions, not to copy the schema or the names.
 
 ## Before
 

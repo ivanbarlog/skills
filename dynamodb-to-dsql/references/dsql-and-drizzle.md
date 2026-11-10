@@ -143,7 +143,7 @@ Codes: 23505 unique, 23503 foreign key, 23514 check, 40001 OCC conflict.
 ## Measured, indicative (one app, one run, 1,024 MB Lambda)
 
 Warm p50 was equal (33.9 vs 35.2 ms). Reads were equal or faster on DSQL; writes were slower
-in the same click path (`removeExpense` 47-66 ms vs 35-41 ms, `addExpense` 65-123 ms vs 54-97
+in the same click path (a delete 47-66 ms vs 35-41 ms, an insert 65-123 ms vs 54-97
 ms). Cold start heavier: init 461 vs 271-376 ms; first request 395 vs 214 ms
 (token signing plus first connection). One run each; measure your own workload on your own
 data, on the same stage, before and after, under the same conditions.
